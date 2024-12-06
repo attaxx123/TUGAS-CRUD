@@ -1,0 +1,74 @@
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <!-- Page Title and Add Data Button -->
+            <h5 class="mt-4">Data Siswa</h5>
+            <a href="/data-siswa/add" class="btn btn-primary mb-3">
+                <i class="bi bi-plus"></i> Tambah Data
+            </a>
+
+            <!-- Success Alert Message -->
+            <% if (msg.length !== 0) { %>
+                <div id="myAlert" class="alert alert-success" role="alert">
+                    <%= msg %>
+                </div>
+            <% } %>
+
+            <!-- Data Table -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>NISN</th>
+                                <th>NIK</th>
+                                <th>No.KK</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (Dsiswa.length === 0) { %>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="alert alert-danger" role="alert">
+                                            Data Siswa/Siswi Masih Kosong
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% } else { %>
+                                <% Dsiswa.forEach((siswa, i) => { %>
+                                    <tr>
+                                        <td><%= i + 1 %></td>
+                                        <td><%= siswa.nama %></td>
+                                        <td><%= siswa.nisn %></td>
+                                        <td><%= siswa.nik %></td>
+                                        <td><%= siswa.nokk %></td>
+                                        <td>
+                                            <!-- Action Buttons (Detail and Delete) -->
+                                            <a href="/data-siswa/detail/<%= siswa.nisn %>" class="btn btn-info btn-sm">
+                                                Detail
+                                            </a>
+                                            <a href="#" class="btn btn-danger btn-sm" onclick="deleteSiswa('<%= siswa.nisn %>', '<%= siswa.nama %>'); return false;">
+                                                <i class="bi bi-trash3-fill"></i> Delete
+                                            </a>
+                                        </td> 
+                                    </tr>
+                                <% }) %>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    function deleteSiswa(nisn, nama) {
+        if (confirm(`Apakah Anda yakin ingin menghapus data siswa dengan NISN: ${nisn}, Nama: ${nama}?`)) {
+            window.location.href = `/data-siswa/delete/${nisn}`;
+        }
+    }
+</script>
